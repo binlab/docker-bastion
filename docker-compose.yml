@@ -10,7 +10,7 @@ services:
     ports:
       - 22222:22/tcp
     volumes:
-      - ./bastion_keys:/var/lib/bastion/authorized_keys:ro
+      - ./.bastion_keys:/var/lib/bastion/authorized_keys:ro
       - bastion:/etc/ssh:rw
     extra_hosts:
       - docker-host:172.17.0.1
@@ -25,7 +25,7 @@ services:
     expose:
       - 22/tcp
     volumes:
-      - ./bastion_keys:/var/lib/bastion/authorized_keys:ro
+      - ./.bastion_keys:/var/lib/bastion/authorized_keys:ro
       - docker-ssh:/etc/ssh:rw
     networks:
       - bastion
