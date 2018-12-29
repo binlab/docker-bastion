@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+  bastion:
+    image: binlab/bastion
+    container_name: bastion
+    hostname: bastion
+    restart: unless-stopped
+    expose:
+      - 22/tcp
+    ports:
+      - 22222:22/tcp
+    volumes:
+      - ./bastion_keys:/var/lib/bastion/authorized_keys:ro
+      - bastion:/etc/ssh:rw
+    extra_hosts:
+      - docker-host:172.17.0.1
+    networks:
+      - bastion
+
+  docker-ssh:
+    image: binlab/bastion
+    container_name: docker-ssh
+    hostname: docker-ssh
+    restart: unless-stopped
+    expose:
+      - 22/tcp
+    volumes:
+      - ./bastion_keys:/var/lib/bastion/authorized_keys:ro
+      - docker-ssh:/etc/ssh:rw
+    networks:
+      - bastion
+
+networks:
+  bastion:
+    driver: bridge
+    
+volumes:
+  bastion:
+  docker-ssh:
