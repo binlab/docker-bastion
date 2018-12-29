@@ -34,9 +34,9 @@ $ docker run -d \
     --name bastion \
     --hostname bastion \
     --restart unless-stopped \
-    -v ./bastion_keys:/var/lib/bastion/authorized_keys:ro \
+    -v ./.bastion_keys:/var/lib/bastion/authorized_keys:ro \
     -v bastion:/etc/ssh:rw
-    --add-host dockerhost:172.17.0.1
+    --add-host docker-host:172.17.0.1
     -p 22222:22/tcp \
     binlab/bastion
 ```
@@ -56,7 +56,7 @@ services:
     ports:
       - 22222:22/tcp
     volumes:
-      - ./bastion_keys:/var/lib/bastion/authorized_keys:ro
+      - ./.bastion_keys:/var/lib/bastion/authorized_keys:ro
       - bastion:/etc/ssh:rw
     extra_hosts:
       - docker-host:172.17.0.1
@@ -98,10 +98,10 @@ $ cd docker-bastion
 $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f $HOME/.ssh/id_rsa
 ```
 
-* Add `rsa` public key to `bastion_keys` file
+* Add `rsa` public key to `.bastion_keys` file
 
 ```shell
-$ cat $HOME/.ssh/id_rsa.pub > ./bastion_keys
+$ cat $HOME/.ssh/id_rsa.pub > ./.bastion_keys
 ```
 
 * Run [`docker-compose.yml`](docker-compose.yml) configuration - `bastion` & `docker-ssh`
@@ -139,7 +139,7 @@ You may change this message by editing /etc/motd.
 bastion:~$ 
 ```
 
-### 2. Connect to `Host` through `Bastion`. 
+### 2. Connect to `Host` through `Bastion`
 
 ---
 
@@ -161,7 +161,7 @@ $ ssh-add $HOME/.ssh/id_rsa
 $ ssh -A -J bastion@127.0.0.1:22222 <your_user>@docker-host
 ```
 
-### 3. Connect to another container with `SSH` through `Bastion`. 
+### 3. Connect to another container with `SSH` through `Bastion`
 
 ---
 
