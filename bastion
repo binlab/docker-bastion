@@ -54,6 +54,18 @@ if [ ! -f "$HOST_KEYS_PATH/ssh_host_rsa_key" ]; then
     /usr/bin/ssh-keygen -A -f "$HOST_KEYS_PATH_PREFIX"
 fi
 
+if [ -n "$LISTEN_ADDRESS" ]; then
+    CONFIG_LISTEN_ADDRESS="-o ListenAddress=$LISTEN_ADDRESS"
+else
+    CONFIG_LISTEN_ADDRESS="-o ListenAddress=0.0.0.0"
+fi
+
+if [ -n "$LISTEN_PORT" ]; then
+    CONFIG_LISTEN_PORT="-o Port=$LISTEN_PORT"
+else
+    CONFIG_LISTEN_PORT="-o Port=22"
+fi
+
 /usr/sbin/sshd -D -e -4 \
     -o "HostKey=$HOST_KEYS_PATH/ssh_host_rsa_key" \
     -o "HostKey=$HOST_KEYS_PATH/ssh_host_dsa_key" \
@@ -70,4 +82,6 @@ fi
     $CONFIG_AGENT_FORWARDING \
     $CONFIG_TCP_FORWARDING \
     $CONFIG_TRUSTED_USER_CA_KEYS \
-    $CONFIG_AUTHORIZED_PRINCIPALS_FILE
+    $CONFIG_AUTHORIZED_PRINCIPALS_FILE \
+    $CONFIG_LISTEN_ADDRESS \
+    $CONFIG_LISTEN_PORT

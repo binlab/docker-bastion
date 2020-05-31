@@ -40,6 +40,10 @@ behind a `NAT`. This image based on `Alpine Linux` last version.
 
 * `AGENT_FORWARDING [true | false]` - Specifies whether `ssh-agent` forwarding is permitted. The default is `true`. Note that disabling agent forwarding does not improve security unless users are also denied shell access, as they can always install their own forwarders.
 
+* `LISTEN_ADDRESS [0.0.0.0]` - Specifies the local addresses should listen on. By default it **0.0.0.0**. Useful when Docker container runs in `Host mode`
+
+* `LISTEN_PORT [22]` - Specifies the port number that listens on. The default is **22**. Useful when Docker container runs in `Host mode`
+
 ###  Run Bastion and `expose` port `22222` to outside a host machine
 
 The container assumes your `authorized_keys` file with `644` permissions and mounted under `/var/lib/bastion/authorized_keys`.
